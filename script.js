@@ -6,42 +6,11 @@ function writePassword() {
   var password = generatePassword();
   var passwordText = document.querySelector("#password");
 
-  passwordText.value = password;
-}
-
-//Generate password
-function generatePassword() {
-  var resultDict = getUserInput();
-  var charSet = "";
-
-  if (
-    resultDict.lowercaseChars ||
-    resultDict.uppercaseChars ||
-    resultDict.numericChars ||
-    resultDict.specialChars
-  ) {
-    if (resultDict.lowercaseChars) {
-      charSet += "abcdefghijklmnopqrstuvwxyz";
-    }
-    if (resultDict.uppercaseChars) {
-      charSet += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    }
-    if (resultDict.numericChars) {
-      charSet += "0123456789";
-    }
-    if (resultDict.specialChars) {
-      charSet += "!@#$%^&*()_+~`|}{[]:;?,><.-=";
-    }
-
-    var generatedPassword = [];
-    console.log(generatedPassword.length);
-    while (generatedPassword.length < resultDict.passwordLength) {
-      generatedPassword.push(
-        charSet.charAt(Math.floor(Math.random() * charSet.length)),
-      );
-    }
-    console.log(charSet);
-    return generatedPassword.join("");
+  if (password === undefined) {
+    passwordText.value =
+      "There seems to be a problem generating your password please try again.";
+  } else {
+    passwordText.value = password;
   }
 }
 
@@ -77,8 +46,48 @@ function getUserInput() {
     userResponseDict.specialChars = confirm(
       "Would you like special characters?",
     );
+    return userResponseDict;
+  } else {
+    alert("Invalid value, \nPlease ensure you choose a value between 8 - 128");
   }
-  return userResponseDict;
+}
+
+//Generate password
+function generatePassword() {
+  var resultDict = getUserInput();
+  var charSet = "";
+
+  if (
+    resultDict.lowercaseChars ||
+    resultDict.uppercaseChars ||
+    resultDict.numericChars ||
+    resultDict.specialChars
+  ) {
+    if (resultDict.lowercaseChars) {
+      charSet += "abcdefghijklmnopqrstuvwxyz";
+    }
+    if (resultDict.uppercaseChars) {
+      charSet += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    }
+    if (resultDict.numericChars) {
+      charSet += "0123456789";
+    }
+    if (resultDict.specialChars) {
+      charSet += "!@#$%^&*()_+~`|}{[]:;?,><.-=";
+    }
+
+    var generatedPassword = [];
+    while (generatedPassword.length < resultDict.passwordLength) {
+      generatedPassword.push(
+        charSet.charAt(Math.floor(Math.random() * charSet.length)),
+      );
+    }
+    return generatedPassword.join("");
+  } else {
+    alert("Please pick witch character set's you would like to use.  ");
+    var passwordText = document.querySelector("#password");
+    passwordText.value = "Invalid arguments, Please try again :)";
+  }
 }
 
 // Add event listener to generate button
